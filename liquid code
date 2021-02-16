@@ -1,0 +1,320 @@
+<script src="https://player.vimeo.com/api/player.js"></script>
+<!-- live_page_header-no-credits.liquid  -->
+<section class="live_header">
+  <div id="particles-js"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        {% if section.settings.image_logo != blank %}
+        <span class="top_img"><img src="{{ section.settings.image_logo | img_url : '' }}"></span>
+        {% endif %}
+        {% if section.settings.text != blank %}
+        <p>{{ section.settings.text }}</p>
+        {% endif %}
+        {% for block in section.blocks %}  
+        <!--   2020-11-26 07:03   -->
+        <script>
+$(document).ready(function(){
+  $("#PolarisTextField8").click(function(){
+    alert("The paragraph was clicked.");
+  });
+});
+</script>
+        <script>
+       // Store
+sessionStorage.setItem("lastname", "Smith");
+// Retrieve
+console.log(sessionStorage.getItem("lastname"));
+        </script>
+        {% assign timestamp = 'now' | date: "%Y-%m-%d %H:%M" %}
+        {% assign timestamp1 = block.settings.date | convert: "date"  %}
+        {% assign timestamp2 = block.settings.date_2 | convert: "date"  %}
+        <div class="new_video_box hide1 {%if timestamp == block.settings.date or timestamp >= block.settings.date_2 %}dddd{%elsif timestamp >= block.settings.date and timestamp <= block.settings.date_2 %} ssss {%else timestamp >= block.settings.date and timestamp >= block.settings.date_2 %}dsds{%endif%}">
+          <div class="inner_content">
+            <div class="vimeo__video">
+              {% if block.settings.button2 != blank %}
+              <div class="lets-btn btn live-btn"  data-id="{{ block.settings.jw_code }}" >
+                <span>{{block.settings.button2}}</span>
+              </div>
+              {% endif %}
+              {% if block.settings.Video_subtitle != blank %}
+              <span class="textxx">{{ block.settings.Video_subtitle2 }}</span>
+              {% endif %}
+              {%if block.settings.image  != blank%}
+               <img src="{{ block.settings.image | img_url: 'large' }}">
+              {% endif %}
+              <!--                           <iframe src="https://player.vimeo.com/video/{{ block.settings.jw_code }}?autoplay=0&muted=0&title=0&byline=0&portrait=0&player_id=vimeo-player&loop=1" width="1340" height="680" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe> -->
+            </div> 
+            {%comment%}
+            <div class="right_content" >
+              {% if block.settings.Video_title != blank %}
+              <h2>{{ block.settings.Video_title }}</h2>
+              {% endif %}
+              {% if block.settings.Video_subtitle != blank %}
+              <span class="textxx">{{ block.settings.Video_subtitle }}</span>
+              {% endif %}
+
+              {% if block.settings.button != blank %}
+              <div class="lets-btn live-btn" data-id="{{ block.settings.jw_code }}">
+                <span>{{block.settings.button}}</span>
+              </div>
+              {% endif %}
+            </div>
+            {%endcomment%}
+          </div>
+          <!--           for video play  -->
+          <div class="inner_content vide_sec">
+            
+            <div class="vimeo__video">
+           
+              {{ block.settings.jw_code }}
+              <iframe src="https://player.vimeo.com/video/{{ block.settings.jw_code }}?autoplay=0muted=0&title=0&byline=0&portrait=0&player_id=vimeo-player&loop=1" id="{{block.settings.jw_code}}" width="1340" height="680" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+           
+            </div>            
+            <div class="right_content" style="display:none;">
+               <iframe src="https://vimeo.com/live-chat/{{ block.settings.Chat_code }}/" width="400" height="600" frameborder="0"></iframe>          
+            </div>
+
+            <!--                   <div class="col-md-6">
+<div class="sec-2 right">
+<iframe src="https://vimeo.com/live-chat/{{ block.settings.Chat_code }}/" width="400" height="600" frameborder="0"></iframe>          
+</div>
+</div> -->
+
+          </div>
+
+        </div>
+        {% endfor %}
+                
+         {% if section.settings.show_content %}
+        {% if section.settings.richtext != blank %}
+        <div class="new_banner"> {{section.settings.richtext }}</div>
+         {% endif %}
+         {% endif %}
+        {% if section.settings.show_hide %}
+        {% if section.settings.image1 != blank %}
+        <div class="new_banner"> <img src="{{section.settings.image1 | img_url: '' }}"></div>
+         {% endif %}
+         {% endif %}
+      </div>
+    </div>
+    <input type="hidden" name="videoid" id="videoid" value="">
+  </div>
+</section>
+<script>
+  var videoid = '';
+  var myVar = setInterval( function() { checkIfVideoExists1("https://vimeo.com/499300689"); }, 5000 );
+  function checkIfVideoExists1(url){
+      $.ajax({
+          type:'GET',
+          url: 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(url),
+          dataType: 'json',
+          complete: function(xhr) {
+            if(xhr.status==404)
+            {
+            	alert('Video not found');
+            }
+           //  alert(JSON.stringify(xhr));
+          } 
+      });
+     }
+
+  
+  
+  
+  $(document).ready(function(e) {
+    function checkIfVideoExists(url, callback){
+      $.ajax({
+          type:'GET',
+          url: 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(url),
+          dataType: 'json',
+          complete: function(xhr) {
+              callback(xhr.status);
+          } 
+      });
+     }
+    
+    
+   $(".lets-btn").click(function(){
+      var id  = $(this).attr('data-id');
+      $("#videoid").val(id);
+     console.log(id);
+     var iframe = document.getElementById(id);
+    var player = new Vimeo.Player(iframe);
+     
+     
+     checkIfVideoExists("https://vimeo.com/"+id, function(status){
+       if(status != 200){
+       		alert("Your video not exists or break");
+       }else{
+       
+       }
+	 });
+     
+//      player.on("error", getAutopause(){
+//         alert("Your video not exists or break");
+//      });
+
+	
+//     player.on("ended", function() {
+//         alert("Your Vimeo video has now ended");
+//     });
+//     player.on("pause", function() {
+//         alert("Your Vimeo video has now paused");
+//     });
+     
+     
+     
+      $(".new_video_box").addClass("show_video");	
+    });
+
+    $(document).on('click','._for-popup',function(e){
+      $("body").addClass("show_popup");	
+    });
+    $(document).on('click','.close',function(e){
+      $("body").removeClass("show_popup");	
+    });
+  });
+
+</script>
+
+
+
+<style>
+  .hide1.dddd {
+    display: none;
+  }
+  .hide1.dsds {
+    display: none;
+  }
+</style>
+
+
+
+{% schema %}
+{
+"name": "Section name",
+"settings": [
+{
+"type" : "image_picker",
+"id" : "image_logo",
+"label" : "Logo Image"
+},
+{
+	"type" : "checkbox",
+	"id" : "show_content",
+	"label" : "Show / hide Content"
+},
+{
+"type" : "richtext",
+"id" : "richtext",
+"label" : "Content"
+},
+	{
+			"type" : "checkbox",
+			"id" : "show_hide",
+			"label" : "Show / hide image"
+		},
+{
+"type" : "image_picker",
+"id" : "image1",
+"label" : "Image"
+},
+{
+"type" : "image_picker",
+"id" : "image",
+"label" : "video Image"
+},
+{
+"type" : "text",
+"id" : "title",
+"label" : "Title"
+},
+{
+"type" : "text",
+"id" : "subtitle",
+"label" : "Subtitle"
+},
+{
+"type" : "text",
+"id" : "text",
+"label" : "Text"
+}
+
+],
+"blocks": [
+{
+"type": "image",
+"name": "Image",
+"settings": [
+{
+"type": "text",
+"id": "Title",
+"label": "Title"
+},
+{
+"type" : "text",
+"id" : "Video_subtitle2",
+"label" : "Video subitle"
+},
+{
+"type" : "text",
+"id" : "button2",
+"label" : "Button"
+},
+{
+"type": "text",
+"id": "date",
+"label": "Show Date Time"
+},
+{
+"type" : "image_picker",
+"id" : "image",
+"label" : "video Image"
+},
+{
+"type": "textarea",
+"id": "jw_code",
+"label": "Vimeo Code"
+},
+{
+"type": "text",
+"id": "Chat_code",
+"label": "Chat Code"
+},
+{
+"type": "text",
+"id": "product_Title",
+"label": "Product Title"
+},
+{
+"type": "text",
+"id": "date_2",
+"label": "Hide Date"
+},
+{
+"type" : "text",
+"id" : "Video_title",
+"label" : "Video Title"
+},
+{
+"type" : "text",
+"id" : "Video_subtitle",
+"label" : "Video subitle"
+},
+{
+"type" : "text",
+"id" : "button",
+"label" : "Button"
+}
+]
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
